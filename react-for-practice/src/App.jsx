@@ -6,6 +6,7 @@ import "./App.css";
 // import Button from './components/Button'
 import Bulb from "./components/Bulb";
 import Counter from "./components/Counter";
+import Register from "./components/Register";
 
 function App() {
   // const buttonProps = {
@@ -30,8 +31,9 @@ function App() {
       {/* html요소는 children이라는 props명을 가지고 전달이된다. */}
       {/* </div>
       </Button> */}
-      <Bulb />
-      <Counter />
+      {/* <Bulb />
+      <Counter /> */}
+      <Register />
     </>
   );
 }
