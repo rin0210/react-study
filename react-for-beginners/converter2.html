@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/prop-types@15.7.2/prop-types.js"></script> <!--어떤 타입의 prop을 받고 있는지 체크한다. 에러방지-->
+  <script src="https://unpkg.com/@babel/standalone@7.29.4/babel.min.js"></script>
+  <script type="text/babel">
+    // const h3 = React.createElement(
+    //   "h3",
+    //   {
+    //     id: "title",
+    //     onMouseEnter: () => console.log("mouse enter"),
+    //   },
+    //   "Hello, I'm a span",
+    // );
+    // const btn = React.createElement(
+    //   "button",
+    //   {
+    //     onClick: () => console.log("im clicked"),
+    //     style: {
+    //       backgroundColor: "tomato",
+    //     },
+    //   },
+    //   "Click me",
+    // );
+    //const App = React.createElement("div", null, [Title, Button]);
+
+    function Btn({ text, onClick, fontSize=12 }) {
+      console.log(text, "was rendered");
+      //function Btn(props) 로 쓴 다음 {props.text}로 사용할 수 있음, props라는 오브젝트 안에 있는 {text}라는 property 를 꺼내서 쓰는 것임.
+      return (
+        <button
+          onClick={onClick}
+          style={{
+            backgroundColor: "tomato",
+            color: "white",
+            padding: "10px 20px",
+            border: 0,
+            borderRadius: 10,
+            fontSize,
+          }}
+        >
+          {text}
+        </button>
+      );
+    }
+
+    Btn.propTypes = {
+      text: PropTypes.string.isRequired,  
+      fontSize: PropTypes.number, 
+    };
+
+    const MemorizedBtn = React.memo(Btn); //props가 변경되지 않는다면 다시 그릴 필요가 없다는 것을 기억하게 하는 기능
+
+    function App() {
+      const [value, setValue] = React.useState("Save Changes");
+      const changeValue = () => {
+        setValue("Revert Changes");
+      };
+      return (
+        <div>
+          <MemorizedBtn text={value} onClick={changeValue} fontSize={18} />
+          {/*Btn({text:"save changes"}처럼 Btn함수에 text 라는 인자를 보내는 것과 같다. 
+                                                        여기의 onClick={changeValue} 은 이벤트리스너가 아니라 just 인자야*/}
+          <MemorizedBtn text="Continue" />
+          {/*<MemorizedBtn text={10} fontSize="Continue" />*/}
+        </div>
+      );
+    }
+    const root = document.getElementById("root");
+    ReactDOM.render(<App />, root);
+  </script>
+</html>

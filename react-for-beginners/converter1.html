@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.4/babel.min.js"></script>
+  <script type="text/babel">
+    // const h3 = React.createElement(
+    //   "h3",
+    //   {
+    //     id: "title",
+    //     onMouseEnter: () => console.log("mouse enter"),
+    //   },
+    //   "Hello, I'm a span",
+    // );
+    // const btn = React.createElement(
+    //   "button",
+    //   {
+    //     onClick: () => console.log("im clicked"),
+    //     style: {
+    //       backgroundColor: "tomato",
+    //     },
+    //   },
+    //   "Click me",
+    // );
+    //const App = React.createElement("div", null, [Title, Button]);
+    function MinutesToHours() {
+      //   const [counter, setCounter] = React.useState(0); //userState 는 array 를 제공한다. 첫번째 element 가 값(data), 두번째 element 가 수정 함수(function)
+      //   const onClick = () => {
+      //     //setCounter(counter + 1);
+      //     setCounter((current) => current + 1); //현재 state를 기반으로 계산 하기 때문에 이 방법(함수 사용)이 더 안전하다. (다른 곳에서 예상치 못한 업데이트가 이루어졌을 때를 대비)
+      //   };
+      //   console.log("rendered");
+      //   console.log(counter);
+      const [amount, setAmount] = React.useState(0);
+      const [flipped, setFlipped] = React.useState(false);
+      const onChange = (event) => {
+        console.log(event.target.value);
+        setAmount(event.target.value);
+      };
+      const reset = () => {
+        setAmount(0);
+      };
+      const onFlip = () => {
+        reset();
+        setFlipped((current) => !current);
+      };
+      return (
+        <div>
+          {/*<h1 className="hi">Super Converter</h1>*/}
+          <div>
+            <label htmlFor="minutes">Minutes </label>
+            <input
+              value={flipped ? amount * 60 : amount}
+              id="minutes"
+              placeholder="Minutes"
+              type="number"
+              onChange={onChange}
+              disabled={flipped}
+            />
+          </div>
+          {/*<h4>You want to convert {minutes}</h4>*/}
+          <div>
+            <label htmlFor="hours">Hours </label>
+            <input
+              value={flipped ? amount : Math.round(amount / 60)} //분 단위를 시간 단위로 바꿈
+              id="hours"
+              placeholder="Hours"
+              type="number"
+              onChange={onChange}
+              disabled={!flipped}
+            />
+            {/*<button onClick={onClick}>Click me</button>*/}
+          </div>
+          <button onClick={reset}>Reset</button>
+          <button onClick={onFlip}>
+            {flipped ? "Turn back" : "Flip"}
+          </button>{" "}
+          {/*단위 변환을 뒤집는 버튼*/}
+        </div>
+      );
+    }
+
+    function KmToMiles() {
+      return <h3>KM 2 M</h3>;
+    }
+    
+    function App() {
+      const [index, setIndex] = React.useState("xx");
+      const onSelect = (event)  => {
+        console.log(event.target.value);
+        setIndex(event.target.value);
+      };
+      console.log("render w/", index);
+      return (
+        <div>
+          <h1 className="hi">Super Converter</h1>
+          <select value={index} onChange={onSelect}>
+            <option value="xx">Select your units</option>
+            <option value="0">Minutes & Hours</option>
+            <option value="1">Km & Miles</option>
+          </select>
+          <hr />
+          {index === "xx" ? "Please select your units" : null}
+          {index === "0" ? <MinutesToHours /> : null}
+          {index === "1" ? <KmToMiles /> : null}
+        </div>
+      );
+    }
+    const root = document.getElementById("root");
+    ReactDOM.render(<App />, root);
+  </script>
+</html>
